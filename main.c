@@ -16,8 +16,8 @@
 int main(void)
 {
 	printf("\n*********DEALI**********\n");
-	ft_printf("|%f|\n",123456.253499);
-//	printf("|%f|\n",123456.253499);
+	ft_printf("|%f|\n",3.14);
+	printf("|%f|\n",3.14);
 	printf("\n*******************\n");
 	return (0);
 }
