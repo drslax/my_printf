@@ -6,31 +6,15 @@
 /*   By: mherrat <mherrat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 17:50:22 by mherrat           #+#    #+#             */
-/*   Updated: 2019/04/28 22:35:36 by mherrat          ###   ########.fr       */
+/*   Updated: 2019/05/16 01:30:43 by mherrat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/printf.h"
-/*DELETE LATER*/
-#include <stdio.h>
-
-/*DELETE LATER*/
-void 		ft_printflags(t_flags flags)
-{
-	printf("\n---------------------\nflags.leftalign = %d\n", flags.la);
-	printf("flags.space = %d\n", flags.space);
-	printf("flags.plus = %d\n", flags.plus);
-	printf("flags.hash = %d\n", flags.hash);
-	printf("flags.length = %d\n", flags.length);
-	printf("flags.width = %d\n", flags.width);
-	printf("flags.precision = %d\n", flags.precision);
-	printf("flags.zero = %d\n", flags.zero);
-	printf("flags.hflag= %d\n", flags.hflag);
-	printf("flags.lflag = %d\n", flags.lflag);
-}
 
 void		ft_initflags(t_flags *flags)
 {
+	flags->sign = -1;
 	flags->la = 0;
 	flags->space = 0;
 	flags->plus = 0;
@@ -45,37 +29,24 @@ void		ft_initflags(t_flags *flags)
 
 char		*detect_flg(char *string, va_list arg, int *cursor, t_flags *flags)
 {
-	string++;
 	while (*string)
 	{
-		//printf("|%c|", *string);
-		if (*string == '#' || *string == '0' || *string == ' ' || *string == '+'
-				|| *string == '-' || (ft_atoi(string) != 0 && flags->width == 0)
-				|| *string == '.' || *string == 'l' || *string == 'h' || *string == '*' || *string == 'z' || *string == 'j')
-			ft_assignflag(arg, flags, &string);
-		else if (detect_cnv_exist(string) != 0 || *string == '%')
+		if (!ft_assignflag(flags, &string) &&
+		!ft_assignflag2(arg, flags, &string))
 		{
-			if (*string == '%')
-				ft_printpercent(cursor, *flags);
-			else
-				print_cnv(string, arg, cursor, *flags);
-			//ft_printflags(*flags);
-			ft_initflags(flags);
-			return (string);
-		}
-		else if (*string == 'D' || *string == 'U' || *string == 'O' || *string == 'S' || *string == 'C')
-		{
-			flags->lflag = 1;
-			if (*string == 'D')
-				print_cnv("d", arg, cursor, *flags);
-			else if (*string == 'U')
-				print_cnv("u", arg, cursor, *flags);
-			else if (*string == 'C')
-				print_cnv("c", arg, cursor, *flags);
-			else if (*string == 'S')
-				print_cnv("s", arg, cursor, *flags);
-			else
-				print_cnv("o", arg, cursor, *flags);
+			if (detect_cnv_exist(string) != 0 || *string == '%')
+				(*string == '%') ? ft_printpercent(cursor, *flags)
+					: print_cnv(string, arg, cursor, *flags);
+			else if (*string == 'D' || *string == 'U' || *string == 'O')
+			{
+				flags->lflag = 1;
+				if (*string == 'D')
+					print_cnv("d", arg, cursor, *flags);
+				else if (*string == 'U')
+					print_cnv("u", arg, cursor, *flags);
+				else
+					print_cnv("o", arg, cursor, *flags);
+			}
 			ft_initflags(flags);
 			return (string);
 		}
@@ -84,10 +55,8 @@ char		*detect_flg(char *string, va_list arg, int *cursor, t_flags *flags)
 	return (string);
 }
 
-void		ft_assignflag(va_list arg, t_flags *flags, char **string)
+int			ft_assignflag(t_flags *flags, char **string)
 {
-	int		star;
-
 	if (**string == '#')
 		flags->hash = 1;
 	else if (**string == '0')
@@ -102,24 +71,37 @@ void		ft_assignflag(va_list arg, t_flags *flags, char **string)
 		flags->lflag += 1;
 	else if (**string == 'h')
 		flags->hflag += 1;
-	else if ((ft_atoi(*string) != 0 && flags->width == 0) || (**string == '0') )
+	else
+		return (0);
+	return (1);
+}
+
+int			ft_assignflag2(va_list arg, t_flags *flags, char **str)
+{
+	int		star;
+
+	if ((ft_atoi(*str) != 0 && flags->width == 0) || (**str == '0'))
 	{
-		flags->width = ft_atoi(*string);
-		(*string) += (ft_numbersize(ft_atoi(*string))) - 1;
+		flags->width = ft_atoi(*str);
+		(*str) += (ft_numbersize(ft_atoi(*str))) - 1;
 	}
-	else if (**string == '.')
+	else if (**str == '.')
 	{
-		(*string)++;
-		star = (**string == '*') ? va_arg(arg, int) : ft_atoi(*string);
-		flags->precision = star;
-		if ((**string == '*') || (**string == '0') || ft_atoi(*string) != 0)
-			(*string) += (**string == '*')? 0 : (ft_numbersize(star)) - 1;
+		(*str)++;
+		(star = (**str == '*') ? va_arg(arg, int) : ft_atoi(*str));
+		(flags->precision = ABS(star));
+		if ((**str == '*') || (**str == '0') || ft_atoi(*str) != 0)
+			(*str) += (**str == '*') ? 0 : (ft_numbersize(star)) - 1;
 		else
-			(*string)--;
+			(*str)--;
 	}
-	else if (**string == '*')
+	else if (**str == '*')
 	{
 		star = va_arg(arg, int);
-		flags->width = star;
-	}	
+		(flags->la = (star < 0) ? 1 : flags->la);
+		(flags->width = ABS(star));
+	}
+	else
+		return (0);
+	return (1);
 }

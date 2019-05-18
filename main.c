@@ -1,23 +1,125 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mherrat <mherrat@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/02/11 19:20:516 by mherrat           #+#    #+#             */
-/*   Updated: 2019/05/10 05:23:37 by aelouarg         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
+#include<stdio.h>
+#include<float.h>
+#include<math.h>
 #include "includes/printf.h"
-#include <stdio.h>
-#include <limits.h>
-int main(void)
+int main(int argc, char const *argv[])
 {
-	printf("\n*********DEALI**********\n");
-	ft_printf("|%f|\n",3.14);
-	printf("|%f|\n",3.14);
-	printf("\n*******************\n");
-	return (0);
+	printf("-**DEALNA**-\n");
+
+	/*printf("%d :\n",ft_printf("%1f|%-1f|%+1f|% 1f|%#1f|%01f|\n",  0 / 0.,  0 / 0.,  0 / 0.,  0 / 0.,  0 / 0.,  0 / 0.)));
+	  printf("%d :\n",ft_printf("%.f|%-.f|%+.f|% .f|%#.f|%0.f|\n",  0 / 0.,  0 / 0.,  0 / 0.,  0 / 0.,  0 / 0.,  0 / 0.)));
+	  printf("%d :\n",ft_printf("%.8f|%-.8f|%+.8f|% .8f|%#.8f|%0.8f|\n",  0 / 0.,  0 / 0.,  0 / 0.,  0 / 0.,  0 / 0.,  0 / 0.)));
+	  printf("%d :\n",ft_printf("%5.8f|%-5.8f|%+5.8f|% 5.8f|%#5.8f|%05.8f|\n",  0 / 0.,  0 / 0.,  0 / 0.,  0 / 0.,  0 / 0.,  0 / 0.)));
+	  printf("%d :\n",ft_printf("%15.8f|%-15.8f|%+15.8f|% 15.8f|%#15.8f|%015.8f|\n",  0 / 0.,  0 / 0.,  0 / 0.,  0 / 0.,  0 / 0.,  0 / 0.)));
+	  printf("%d :\n",ft_printf("|%f|%-f|%+f|% f|%#f|%0f|\n",  0 / 0.,  0 / 0.,  0 / 0.,  0 / 0.,  0 / 0.,  0 / 0.)));
+	  printf("%d :\n",ft_printf("%15.8f|%-15.8f|%+15.8f|% 15.8f|%#15.8f|%015.8f\n", 0., 0., 0., 0., 0., 0.)));
+	  printf("%d :\n",ft_printf("|%.f|\n",  0 / 0.)));
+	  printf("%d :\n",ft_printf("|%-.f|\n",  0 / 0.)));
+	  printf("%d :\n",ft_printf("|%+.f|\n",  0 / 0.)));
+	  printf("%d :\n",ft_printf("|% .f|\n",  0 / 0.)));
+	  printf("%d :\n",ft_printf("|%#.f|\n",  0 / 0.)));
+	  printf("%d :\n",ft_printf("|%0.f|\n",  0 / 0.)));*/
+	//printf("%d :\n",ft_printf("%.f|%.f|%.f|%.f|%.f\n", 44.5, 44.4, 44.6, 44.50001, 44.5 + 1e-52)));
+	//printf("%d :\n",ft_printf("%+8.14f|%+ 8.14f|%+-8.14f|%+#8.14f|%+08.14f|%+ -#08.14f", INFINITY, INFINITY, INFINITY, INFINITY, INFINITY, INFINITY)));
+	//printf("%d :\n",ft_printf("%f|%-f|%+f|% f|%#f|%0f", INFINITY, INFINITY, INFINITY, INFINITY, INFINITY, INFINITY)));
+	//printf("%d :\n",ft_printf("|% s|\n", "this is a test")));
+	//printf("%d :\n",printf("|% s|\n", "this is a test")));
+	//printf("%d :\n",ft_printf("|%f|\n", DBL_MAX)));
+	//printf("%d :\n",ft_printf("|%5f|%-5f|%+5f|% 5f|%#5f|%05f|\n",  0 / 0.,  0 / 0.,  0 / 0.,  0 / 0.,  0 / 0.,  0 / 0.)));
+	//printf("%d :\n",ft_printf("|%1f|%-1f|%+1f|% 1f|%#1f|%01f|\n",  0 / 0.,  0 / 0.,  0 / 0.,  0 / 0.,  0 / 0.,  0 / 0.)));
+	double		nb;
+	nb = -0.000;
+
+	ft_printf("test basique:\n");
+	printf("%d :\n",ft_printf("space:% f\n", nb));
+	printf("%d :\n",ft_printf("plus:%+f\n", nb));
+	printf("%d :\n",ft_printf("hash:%#f\n", nb));
+	printf("%d :\n",ft_printf("precision:%.2f\n", nb));
+	printf("%d :\n",ft_printf("big prec:%.14f\n", nb));
+	printf("%d :\n",ft_printf("precision + hash:%#.0f\n", nb));
+	printf("%d :\n",ft_printf("space + prec:% .5f\n", nb));
+	printf("%d :\n",ft_printf("space + prec + hash:%# .0f\n", nb));
+	printf("%d :\n",ft_printf("space + prec + hash:% #.0f\n", nb));
+	printf("%d :\n",ft_printf("Plus + prec / grande:%+.5f\n", nb));
+	printf("%d :\n",ft_printf("Plus + prec / petite:%+.0f\n", nb));
+	printf("%d :\n",ft_printf("Plus + prec + hash:%#+.0f\n", nb));
+	printf("%d :\n",ft_printf("Prec + 0:%0.5f\n", nb));
+	printf("%d :\n",ft_printf("Prec + minus:%-.5f\n", nb));
+	printf("%d :\n",ft_printf("size:%5f\n", nb));
+	printf("%d :\n",ft_printf("size + space:% 5f\n", nb));
+	printf("%d :\n",ft_printf("size + plus:%+5f\n", nb));
+	printf("%d :\n",ft_printf("size + space:%# 5f\n", nb));
+	printf("%d :\n",ft_printf("size + plus:%#+5f\n", nb));
+	printf("%d :\n",ft_printf("size + minus:%-5f\n", nb));
+	printf("%d :\n",ft_printf("size + 0:%05f\n", nb));
+	printf("%d :\n",ft_printf("size + 0 + plus:%+05f\n", nb));
+	printf("%d :\n",ft_printf("size + 0 + plus:%0+5f\n", nb));
+	printf("%d :\n",ft_printf("size + 0 + prec:%05.3f\n", nb));
+	printf("%d :\n",ft_printf("size + 0 + prec + hash:%0#5.0f\n", nb));
+	printf("%d :\n",ft_printf("size + minus + prec:%-5.3f\n", nb));
+	printf("%d :\n",ft_printf("size + minus + prec + hash:%-#5.0f\n", nb));
+	printf("%d :\n",ft_printf("size + plus + 0 + prec:%+05.3f\n", nb));
+	printf("%d :\n",ft_printf("size + plus + 0 + prec + hash:%0+#5.0f\n", nb));
+	printf("%d :\n",ft_printf("size + espace + zero + prec:%0 5.3f\n", nb));
+	printf("%d :\n",ft_printf("size + espace + zero + prec:% 05.3f\n", nb));
+	printf("%d :\n",ft_printf("size + espace + zero + prec + hash:%#0 5.0f\n", nb));
+	printf("%d :\n",ft_printf("size + minus + plus + prec:%-+5.3f\n", nb));
+	printf("%d :\n",ft_printf("size + minus + plus + prec + hash:%-#+5.0f\n", nb));
+	printf("-**DEALHOM**-\n");
+	printf("test basique:\n");
+	printf("%d :\n",printf("space:% f\n", nb));
+	printf("%d :\n",printf("plus:%+f\n", nb));
+	printf("%d :\n",printf("hash:%#f\n", nb));
+	printf("%d :\n",printf("precision:%.2f\n", nb));
+	printf("%d :\n",printf("big prec:%.14f\n", nb));
+	printf("%d :\n",printf("precision + hash:%#.0f\n", nb));
+	printf("%d :\n",printf("space + prec:% .5f\n", nb));
+	printf("%d :\n",printf("space + prec + hash:%# .0f\n", nb));
+	printf("%d :\n",printf("space + prec + hash:% #.0f\n", nb));
+	printf("%d :\n",printf("Plus + prec / grande:%+.5f\n", nb));
+	printf("%d :\n",printf("Plus + prec / petite:%+.0f\n", nb));
+	printf("%d :\n",printf("Plus + prec + hash:%#+.0f\n", nb));
+	printf("%d :\n",printf("Prec + 0:%0.5f\n", nb));
+	printf("%d :\n",printf("Prec + minus:%-.5f\n", nb));
+	printf("%d :\n",printf("size:%5f\n", nb));
+	printf("%d :\n",printf("size + space:% 5f\n", nb));
+	printf("%d :\n",printf("size + plus:%+5f\n", nb));
+	printf("%d :\n",printf("size + space:%# 5f\n", nb));
+	printf("%d :\n",printf("size + plus:%#+5f\n", nb));
+	printf("%d :\n",printf("size + minus:%-5f\n", nb));
+	printf("%d :\n",printf("size + 0:%05f\n", nb));
+	printf("%d :\n",printf("size + 0 + plus:%+05f\n", nb));
+	printf("%d :\n",printf("size + 0 + plus:%0+5f\n", nb));
+	printf("%d :\n",printf("size + 0 + prec:%05.3f\n", nb));
+	printf("%d :\n",printf("size + 0 + prec + hash:%0#5.0f\n", nb));
+	printf("%d :\n",printf("size + minus + prec:%-5.3f\n", nb));
+	printf("%d :\n",printf("size + minus + prec + hash:%-#5.0f\n", nb));
+	printf("%d :\n",printf("size + plus + 0 + prec:%+05.3f\n", nb));
+	printf("%d :\n",printf("size + plus + 0 + prec + hash:%0+#5.0f\n", nb));
+	printf("%d :\n",printf("size + espace + zero + prec:%0 5.3f\n", nb));
+	printf("%d :\n",printf("size + espace + zero + prec:% 05.3f\n", nb));
+	printf("%d :\n",printf("size + espace + zero + prec + hash:%#0 5.0f\n", nb));
+	printf("%d :\n",printf("size + minus + plus + prec:%-+5.3f\n", nb));
+	printf("%d :\n",printf("size + minus + plus + prec + hash:%-#+5.0f\n", nb));
+	/*printf("%d :\n",printf("%1f|%-1f|%+1f|% 1f|%#1f|%01f|\n",  0 / 0.,  0 / 0.,  0 / 0.,  0 / 0.,  0 / 0.,  0 / 0.)));
+	  printf("%d :\n",printf("%.f|%-.f|%+.f|% .f|%#.f|%0.f|\n",  0 / 0.,  0 / 0.,  0 / 0.,  0 / 0.,  0 / 0.,  0 / 0.)));
+	  printf("%d :\n",printf("%.8f|%-.8f|%+.8f|% .8f|%#.8f|%0.8f|\n",  0 / 0.,  0 / 0.,  0 / 0.,  0 / 0.,  0 / 0.,  0 / 0.)));
+	  printf("%d :\n",printf("%5.8f|%-5.8f|%+5.8f|% 5.8f|%#5.8f|%05.8f|\n",  0 / 0.,  0 / 0.,  0 / 0.,  0 / 0.,  0 / 0.,  0 / 0.)));
+	  printf("%d :\n",printf("%15.8f|%-15.8f|%+15.8f|% 15.8f|%#15.8f|%015.8f|\n",  0 / 0.,  0 / 0.,  0 / 0.,  0 / 0.,  0 / 0.,  0 / 0.)));
+	  printf("%d :\n",printf("|%f|%-f|%+f|% f|%#f|%0f|\n",  0 / 0.,  0 / 0.,  0 / 0.,  0 / 0.,  0 / 0.,  0 / 0.)));
+	  printf("%d :\n",printf("%15.8f|%-15.8f|%+15.8f|% 15.8f|%#15.8f|%015.8f\n", 0., 0., 0., 0., 0., 0.)));
+	  printf("%d :\n",printf("|%.f|\n",  0 / 0.)));
+	  printf("%d :\n",printf("|%-.f|\n",  0 / 0.)));
+	  printf("%d :\n",printf("|%+.f|\n",  0 / 0.)));
+	  printf("%d :\n",printf("|% .f|\n",  0 / 0.)));
+	  printf("%d :\n",printf("|%#.f|\n",  0 / 0.)));
+	  printf("%d :\n",printf("|%0.f|\n",  0 / 0.)));
+	  printf("%d :\n",printf("%.f|%-.f|%+.f|% .f|%#.f|%0.3f\n", -42., -42., -42., -42., -42.,  -42.)));*/
+	//printf("%d :\n",printf("%.f|%.f|%.f|%.f|%.f\n", 44.5, 44.4, 44.6, 44.50001, 44.5 + 1e-52)));
+	//printf("%d :\n",printf("%+8.14f|%+ 8.14f|%+-8.14f|%+#8.14f|%+08.14f|%+ -#08.14f", INFINITY, INFINITY, INFINITY, INFINITY, INFINITY, INFINITY)));
+	//printf("%d :\n",printf("%f|%-f|%+f|% f|%#f|%0f", INFINITY, INFINITY, INFINITY, INFINITY, INFINITY, INFINITY)));
+	//printf("%d :\n",printf("|%Lf|\n", LDBL_MAX)));
+	//printf("%d :\n",printf("|%5f|%-5f|%+5f|% 5f|%#5f|%05f|\n",  0 / 0.,  0 / 0.,  0 / 0.,  0 / 0.,  0 / 0.,  0 / 0.)));
+	//printf("%d :\n",printf("|%1f|%-1f|%+1f|% 1f|%#1f|%01f|\n",  0 / 0.,  0 / 0.,  0 / 0.,  0 / 0.,  0 / 0.,  0 / 0.)));
+	return 0;
 }

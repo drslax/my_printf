@@ -6,7 +6,7 @@
 /*   By: mherrat <mherrat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 20:28:05 by mherrat           #+#    #+#             */
-/*   Updated: 2019/05/01 06:21:56 by mherrat          ###   ########.fr       */
+/*   Updated: 2019/05/07 17:35:37 by mherrat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 
 void	ft_assigntypechar(va_list arg, uintmax_t *number, t_flags flags)
 {
-	if (flags.lflag == 1) 
+	if (flags.lflag == 1)
 		*number = va_arg(arg, uintmax_t);
-	else if (flags.lflag == 0) 
+	else if (flags.lflag == 0)
 		*number = va_arg(arg, unsigned int);
 }
 
@@ -28,12 +28,11 @@ void	ft_printstring(va_list arg, int *cursor, t_flags flags)
 	int		precision;
 	int		size;
 
-	ft_strcpy(null,"(null)");
+	ft_strcpy(null, "(null)");
 	s = va_arg(arg, char *);
 	if (s == NULL)
 		s = null;
-	size = 0;
-		size = (int)ft_strlen(s);
+	size = (int)ft_strlen(s);
 	precision = (flags.precision < size)
 	&& flags.precision != -1 ? flags.precision : size;
 	*cursor += flags.width > precision ? flags.width : precision;
@@ -53,8 +52,7 @@ void	ft_printchar(va_list arg, int *cursor, t_flags flags)
 {
 	uintmax_t c;
 
-	ft_assigntypechar(arg, &c,flags);
-	//c = va_arg(arg, int);
+	ft_assigntypechar(arg, &c, flags);
 	*cursor += flags.width ? flags.width : 1;
 	if (flags.la)
 		flags.zero = 0;

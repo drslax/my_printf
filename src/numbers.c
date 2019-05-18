@@ -6,139 +6,95 @@
 /*   By: mherrat <mherrat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 17:50:29 by mherrat           #+#    #+#             */
-/*   Updated: 2019/05/01 03:48:03 by mherrat          ###   ########.fr       */
+/*   Updated: 2019/05/08 18:08:48 by mherrat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/printf.h"
-#include <stdio.h>
-int		ft_numbersize(unsigned long long number)
-{
-	int i;
 
-	i = 1;
-	while (number /= 10)
-		i++;
-	return (i);
-}
-
-void	ft_putunbr(unsigned long long nbr)
-{
-	if (nbr >= 10)
-	{
-		ft_putnbr(nbr / 10);
-		ft_putchar(nbr % 10 + '0');
-	}
-	else
-		ft_putchar(nbr + '0');
-}
-
-void	ft_assigntype(va_list arg, long long *number, t_flags flags)
-{
-	if (flags.lflag == 1) 
-		*number = va_arg(arg, long);
-	else if (flags.lflag > 1)
-		*number = va_arg(arg, long long);
-	else if (flags.lflag == 0) 
-		*number = va_arg(arg, int);
-	else if (flags.hflag == 1)
-		*number = (short)va_arg(arg, int);
-	else if (flags.hflag == 2)
-		*number = (char)va_arg(arg, int);
-}
-
-void	ft_assigntypeu(va_list arg, unsigned long long *number, t_flags flags)
-{
-	if (flags.lflag == 1) 
-		*number = (unsigned long)va_arg(arg, unsigned long);
-	else if (flags.lflag > 1)
-		*number = (unsigned long long)va_arg(arg, unsigned long long);
-	else if (flags.lflag == 0) 
-		*number = va_arg(arg, unsigned int);
-	else if (flags.hflag == 1)
-		*number = (unsigned short)va_arg(arg, unsigned int);
-	else if (flags.hflag == 2)
-		*number = (unsigned char)va_arg(arg, unsigned int);
-}
-
-void	ft_printsign(int number, t_flags flags)
-{
-	if (number < 0)
-		ft_putchar('-');
-	else if (flags.plus)
-		ft_putchar('+');
-	else if (flags.space)
-		ft_putchar(' ');
-}
-
-void	ft_printnumber(va_list arg, int *cursor, t_flags flags)
+void			ft_printnumber(va_list arg, int *cursor, t_flags fl)
 {
 	long long	d;
 	int			precision;
-	int			sign;
 
-	ft_assigntype(arg, &d,flags);
-	sign = d < 0 ? 1 : 0;
-	if ((flags.plus || flags.la || flags.space) && flags.width && !flags.precision && d == 0)
-		precision = 0;
-	else
-		precision = flags.precision > ft_numbersize(ABS(d))
-		? flags.precision : ft_numbersize(ABS(d));	
-	*cursor += flags.width > precision ? flags.width :
-	precision + (sign | flags.plus | flags.space);
-	flags.width -= precision;
-	flags.zero = (flags.la || flags.width < 0
-	|| precision > ft_numbersize(ABS(d))) ? 0 : flags.zero;
-	if (flags.zero && flags.precision)
-		if((flags.hflag == 2 && flags.precision == -1) || flags.hflag != 2)
-			ft_printsign(d, flags);
-	while (flags.width-- > (sign | flags.plus | flags.space) && !flags.la)
-		(flags.zero && flags.precision == -1) ? ft_putchar('0') : ft_putchar(' ');
-	if (flags.plus || flags.space || d < 0)
-		if (!flags.zero || (flags.hflag == 2 && flags.precision != -1) || ((flags.plus || flags.zero) && !flags.precision))
-			ft_printsign(d, flags);
+	d = ft_assigntype(arg, fl);
+	fl.sign = d < 0 ? 1 : 0;
+	precision = 0;
+	ft_getvaluesd(&fl, &precision, &cursor, d);
+	while (fl.width-- > (fl.sign | fl.plus | fl.space) && !fl.la)
+		(fl.zero && fl.precision == -1) ? ft_putchar('0') : ft_putchar(' ');
+	if ((fl.plus || fl.space || d < 0) && (!fl.zero ||
+	fl.precision != -1 || ((fl.plus || fl.zero) && !fl.precision)))
+		ft_printsign(d, fl);
 	while (precision-- > ft_numbersize(ABS(d)))
 		ft_putchar('0');
-	if (flags.precision == 0 && d == 0)
-		{
-			if ((flags.width == -1 && !flags.space && !flags.plus))
-				ft_putchar(' ');
-			else if (!precision)	
-				(*cursor)--;
-		}
+	if (fl.precision == 0 && d == 0)
+	{
+		if ((fl.width == -1 && !fl.space && !fl.plus))
+			ft_putchar(' ');
+		else if (!precision)
+			(*cursor)--;
+	}
 	else
-		ft_putnbr(ABS(d));
-	while (flags.width-- >= (sign | flags.plus | flags.space) && flags.la)
+		ft_putunbr(ABS(d));
+	while (fl.width-- >= (fl.sign | fl.plus | fl.space) && fl.la)
+		fl.zero ? ft_putchar('0') : ft_putchar(' ');
+}
+
+void			ft_printnumberu(va_list arg, int *cursor, t_flags flags)
+{
+	long unsigned int	d;
+	int					precision;
+	int					width;
+
+	d = ft_assigntypeunsigned(arg, flags);
+	width = flags.width;
+	precision = 0;
+	ft_getvaluesu(&flags, &precision, &cursor, d);
+	while (!flags.la && flags.width-- > (flags.plus | flags.space))
+		(flags.zero && flags.precision == -1) ? ft_putchar('0')
+		: ft_putchar(' ');
+	while (precision-- > ft_numbersize(d))
+		ft_putchar('0');
+	if (!flags.precision && d == 0 && width)
+		ft_putchar(' ');
+	else if (flags.precision || width || d)
+		ft_putunbr(d);
+	while (flags.width-- > 0 && flags.la)
 		flags.zero ? ft_putchar('0') : ft_putchar(' ');
 }
 
-void	ft_printnumberu(va_list arg, int *cursor, t_flags flags)
+void			ft_getvaluesu(t_flags *flags, int *precision, int **cursor,
+long unsigned int d)
 {
-	unsigned long long	d;
-	int				precision;
+	if (flags->precision || d != 0)
+		*precision = flags->precision > ft_numbersize(d)
+			? flags->precision : ft_numbersize(d);
+	**cursor += flags->width > *precision ? flags->width : *precision;
+	*precision = flags->precision > ft_numbersize(d)
+		? flags->precision : ft_numbersize(d);
+	flags->width -= *precision;
+	flags->zero = (flags->la || flags->width < 0
+			|| *precision > ft_numbersize(d)) ? 0 : flags->zero;
+}
 
-	ft_assigntypeu(arg, &d,flags);
-	precision = flags.precision > ft_numbersize(d)
-		? flags.precision : ft_numbersize(d);
-	*cursor += flags.width > precision ? flags.width :
-	precision;
-	flags.width -= precision;
-	flags.zero = (flags.la || flags.width < 0
-	|| precision > ft_numbersize(d)) ? 0 : flags.zero;
-	while (flags.width-- > (flags.plus | flags.space) && !flags.la)
-		(flags.zero && flags.precision == -1) ? ft_putchar('0') : ft_putchar(' ');
-	while (precision-- > ft_numbersize(d))
-		ft_putchar('0');
-	//ft_putunbr(d);
-	if (flags.precision == 0 && d == 0)
-		{
-			if ((flags.width == -1 && !flags.space && !flags.plus))
-				ft_putchar(' ');
-			else if (!precision)	
-				(*cursor)--;
-		}
-	else
-		ft_putunbr(d);
-	while (flags.width-- >= 0 && flags.la)
-		flags.zero ? ft_putchar('0') : ft_putchar(' ');
+void			ft_getvaluesd(t_flags *flags, int *precision, int **cursor,
+long long d)
+{
+	int			width;
+
+	width = flags->width;
+	if (!((flags->plus || flags->la || flags->space) &&
+	flags->width && !flags->precision && d == 0))
+		*precision = flags->precision > ft_numbersize(ABS(d))
+			? flags->precision : ft_numbersize(ABS(d));
+	**cursor += flags->width > *precision ? flags->width :
+		*precision + (flags->sign | flags->plus | flags->space);
+	flags->width -= *precision;
+	flags->zero = (flags->la || flags->width < 0
+			|| *precision > ft_numbersize(ABS(d))) ? 0 : flags->zero;
+	if ((flags->zero && flags->precision) || (flags->zero && width))
+		if ((flags->precision == -1 && !flags->space) ||
+		((flags->plus || flags->space) && flags->precision == -1))
+			ft_printsign(d, *flags);
 }

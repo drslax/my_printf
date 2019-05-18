@@ -6,7 +6,7 @@
 /*   By: mherrat <mherrat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 18:24:34 by mherrat           #+#    #+#             */
-/*   Updated: 2019/04/21 00:12:13 by mherrat          ###   ########.fr       */
+/*   Updated: 2019/05/07 18:16:29 by mherrat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int		ft_printf(const char *string, ...)
 			cursor++;
 		}
 		else if (!detect_cnv_exist(s))
-			s = detect_flg(s, ap, &cursor, &flags);
+			s = detect_flg(++s, ap, &cursor, &flags);
 		else
 			print_cnv(s, ap, &cursor, flags);
 		s++;
