@@ -1,28 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   float.c                                            :+:      :+:    :+:   */
+/*   ldouble.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aelouarg <aelouarg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/10 05:36:56 by aelouarg          #+#    #+#             */
-/*   Updated: 2019/05/24 05:46:34 by aelouarg         ###   ########.fr       */
+/*   Updated: 2019/05/22 02:23:38 by aelouarg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/printf.h"
 
-static void		ft_round(char **f, t_flags *fl, int **cursor, t_64bit d)
+static void		ft_round(char **f, t_flags *flags, int **cursor, t_80bit d)
 {
 	char	*tmp;
 	int		last_digit;
 	int		i;
 
 	i = 0;
-	if ((fl->plus || fl->space || d.dfloat.signe) &&
-			!fl->la && (fl->width < 0 || fl->zero))
+	if ((flags->plus || flags->space || d.ldouble .signe) &&
+			!flags->la && (flags->width < 0 || flags->zero))
 	{
-		ft_printsignfloat(d.dfloat.signe, fl, cursor);
+		ft_printsignfloat(d.ldouble .signe, flags, cursor);
 		i = 1;
 	}
 	last_digit = ft_strlen(*f) - 1;
@@ -32,28 +32,28 @@ static void		ft_round(char **f, t_flags *fl, int **cursor, t_64bit d)
 		tmp = *f;
 		*f = ft_strsum(*f, "1", 10);
 		tmp ? free(tmp) : 0;
-		(fl->precision > 0) && fl->width--;
+		(flags->precision > 0) && flags->width--;
 	}
-	ft_adjust_width(d, fl, cursor, i);
+	ft_dadjust_width(d, flags, cursor, i);
 }
 
-static int		get_float(t_64bit d, char **f, char **intt)
+static int		get_float(t_80bit d, char **f, char **intt)
 {
 	char	*mant;
 	char	*fmantis;
 	size_t	len;
 
-	mant = int_mantis(d);
+	mant = int_dmantis(d);
 	*intt = ft_strsum(mant, "1", 10);
 	len = ft_strlen(mant);
-	fmantis = float_mantis(d);
+	fmantis = ldouble_mantis(d);
 	*f = ft_strjoin(mant, fmantis);
 	fmantis ? free(fmantis) : 0;
 	mant ? free(mant) : 0;
 	return (len);
 }
 
-static int		ft_print_point(char **f, t_flags fl,
+static int		ft_print_point(char **f, t_flags flags,
 				int *precision, size_t len)
 {
 	int		cursor;
@@ -69,7 +69,7 @@ static int		ft_print_point(char **f, t_flags fl,
 			cursor++;
 		}
 		ft_putchar(*(*f)++);
-		if (fl.hash && fl.precision == 0 && !len)
+		if (flags.hash && flags.precision == 0 && !len)
 		{
 			ft_putchar('.');
 			cursor++;
@@ -92,31 +92,30 @@ static int		ft_len_intt(char *intt, char *f, size_t *len)
 	return (*len);
 }
 
-void			ft_printfloat(va_list arg, int *cursor, t_flags fl)
+void			ft_printldouble(va_list arg, int *cursor, t_flags flags)
 {
-	t_64bit		d;
+	t_80bit		ld;
 	char		*f;
 	char		*intt;
 	int			precision;
 	size_t		len;
 
-	if (fl.lflag == 2)
-		return (ft_printldouble(arg, cursor, fl));
-	d.d = (double)va_arg(arg, double);
-	if (!ft_infini(d, &f, &fl, &cursor))
-		return ;
-	len = get_float(d, &f, &intt);
-	precision = (fl.precision != -1) ? fl.precision : 6;
-	fl.width -= precision + len + 1;
-	fl.la ? fl.zero = 0 : 0;
-	(d.dfloat.signe && (d.dfloat.signe = 1)) ? fl.width-- : 0;
-	f = ft_strfreesub(&f, 0, precision + len + 1, 1);
-	ft_round(&f, &fl, &cursor, d);
-	precision += ft_len_intt(intt, f, &len);
-	*cursor += precision + ft_print_point(&f, fl, &precision, len);
-	while (precision > 0 && precision--)
-		ft_putchar('0');
-	while (fl.la && fl.width-- > ((fl.plus | fl.space) & !d.dfloat.signe)
-	&& (*cursor)++)
-		fl.zero ? ft_putchar('0') : ft_putchar(' ');
+	ld.ld = va_arg(arg, long double);
+	if (ft_dinfini(ld, &f, &flags, &cursor))
+	{
+		len = get_float(ld, &f, &intt);
+		precision = (flags.precision != -1) ? flags.precision : 6;
+		flags.width -= precision + len + 1;
+		flags.la ? flags.zero = 0 : 0;
+		(ld.ldouble.signe && (ld.ldouble.signe = 1)) ? flags.width-- : 0;
+		f = ft_strfreesub(&f, 0, precision + len + 1, 1);
+		ft_round(&f, &flags, &cursor, ld);
+		precision += ft_len_intt(intt, f, &len);
+		*cursor += precision + ft_print_point(&f, flags, &precision, len);
+		while (precision > 0 && precision--)
+			ft_putchar('0');
+		while (flags.la && flags.width-- >
+				((flags.plus | flags.space) & !ld.ldouble.signe) && (*cursor)++)
+			flags.zero ? ft_putchar('0') : ft_putchar(' ');
+	}
 }

@@ -3,34 +3,97 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mherrat <mherrat@student.42.fr>            +#+  +:+       +#+         #
+#    By: aelouarg <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2019/04/14 22:01:30 by mherrat           #+#    #+#              #
-#    Updated: 2019/05/09 02:27:36 by mherrat          ###   ########.fr        #
+#    Created: 2019/05/20 10:55:39 by aelouarg          #+#    #+#              #
+#    Updated: 2019/05/23 03:27:09 by aelouarg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CC		= gcc
-FLAGS	= -Wall -Wextra -Werror
-NAME	= libftprintf.a
-SRC		= ./src/flags.c ./src/numbers.c ./src/numbers2.c ./src/ft_printf.c ./src/strings.c ./src/float.c ./src/tools.c ./src/tools2.c ./src/libft/*.c
-SRCS	= *.o
+# This is a minimal set of ANSI/VT100 color codes
+_END=$'\x1b[0m
+_BOLD=$'\x1b[1m
+_UNDER=$'\x1b[4m
+_REV=$'\x1b[7m
+# Colors
+_GREY=$'\x1b[30m
+_RED=$'\x1b[31m
+_GREEN=$'\x1b[32m
+_YELLOW=$'\x1b[33m
+_BLUE=$'\x1b[34m
+_PURPLE=$'\x1b[35m
+_CYAN=$'\x1b[36m
+_WHITE=$'\x1b[37m
+# Colored backgrounds
+_IGREY=$'\x1b[40m
+_IRED=$'\x1b[41m
+_IGREEN=$'\x1b[42m
+_IYELLOW=$'\x1b[43m
+_IBLUE=$'\x1b[44m
+_IPURPLE=$'\x1b[45m
+_ICYAN=$'\x1b[46m
+_IWHITE=$'\x1b[47m
+
+PROJECT 	= ft_printf
+CC			= gcc
+FLAGS		= -Wall -Wextra -Werror
+NAME		= libftprintf.a
+FILENAMES 	= flags.c\
+			float.c\
+			float_manager.c\
+			float_tools.c\
+			ldouble.c\
+			ldouble_manager.c\
+			ldouble_tools.c\
+			ft_printf.c\
+			numbers.c\
+			numbers2.c\
+			strings.c\
+			time.c\
+			tools.c\
+			tools2.c
+
+OBJ_DIR 	= obj
+SRC_DIR		= src
+SRC			= $(addprefix $(SRC_DIR)/, $(FILENAMES))
+HDR 		= ./includes/printf.h
+LIBFT		= src/libft/libft.a
+OBJ			=  $(addprefix $(OBJ_DIR)/, $(FILENAMES:.c=.o))
 
 all: $(NAME)
 
-$(NAME): 
+$(NAME):  $(OBJ) | $(LIBFT)
+	@cp $(LIBFT) ./$(NAME)
+	@ar -cr $(NAME) $(OBJ)
+	@echo "${_GREEN}${_BOLD}${_UNDER}libftprintf.a${_END} created."
+	@echo "${_GREEN}${_BOLD} "
+	@echo '███████╗████████╗     ██████╗ ██████╗ ██╗███╗   ██╗████████╗███████╗'
+	@echo '██╔════╝╚══██╔══╝     ██╔══██╗██╔══██╗██║████╗  ██║╚══██╔══╝██╔════╝'
+	@echo '█████╗     ██║        ██████╔╝██████╔╝██║██╔██╗ ██║   ██║   █████╗  '
+	@echo '██╔══╝     ██║        ██╔═══╝ ██╔══██╗██║██║╚██╗██║   ██║   ██╔══╝  '
+	@echo '██║        ██║███████╗██║     ██║  ██║██║██║ ╚████║   ██║   ██║     '
+	@echo '╚═╝        ╚═╝╚══════╝╚═╝     ╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝   ╚═╝   ╚═╝     '
+	@echo "${_END}"
 
-	$(CC) -c $(FLAGS) $(SRC)
-	ar rc $(NAME) $(SRCS)
-	ranlib $(NAME)
-%.o: %.c
-	$(CC) $< $(FLAGS) -c -o $@
+$(OBJ):	$(OBJ_DIR)/%.o : $(SRC_DIR)/%.c $(HDR) | $(OBJ_DIR)
+	@$(CC) $(FLAGS) -c $< -o $@ 
+	@echo "${_YELLOW}Creating $@ ...${_END}"
+
+$(LIBFT) : 
+	@make -C ./src/libft
+
+$(OBJ_DIR): 
+	@mkdir $(OBJ_DIR)
+	@echo "${_GREEN}Create objects folder ...${_END}"
 
 clean:
-	rm -f ./*.o $(SRCS)
+	@make clean -C ./src/libft
+	@rm -rf  $(OBJ_DIR)
+	@echo "${_RED}${_BOLD}Cleaning $(PROJECT) objects.${_END}"
 
 fclean: clean
-
-	rm -f $(NAME)
+	@make fclean -C ./src/libft
+	@rm -f $(NAME)
+	@echo "${_RED}${_BOLD}${_UNDER}libftprintf.a${_END} deleted."
 
 re: fclean all

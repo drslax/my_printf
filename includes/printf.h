@@ -19,14 +19,14 @@
 typedef	struct		s_flags
 {
 	int			sign;
-	int			width;
-	int			length;
+	long		width;
+	long		length;
 	int			la;
 	int			plus;
 	int			hash;
 	int			zero;
 	int			space;
-	int			precision;
+	long		precision;
 	int			hflag;
 	int			lflag;
 }					t_flags;
@@ -71,6 +71,7 @@ typedef enum		e_cnv
 	O_c,
 	O_p,
 	O_f,
+	O_t,
 	O_END
 }					t_cnv;
 
@@ -114,6 +115,7 @@ void				ft_printnumberhexmin(va_list arg, int *cursor,
 void				ft_printnumberhexmaj(va_list arg, int *cursor,
 					t_flags flags);
 void				ft_printnumberoct(va_list arg, int *cursor, t_flags flags);
+void				ft_printtime(va_list arg, int *cursor, t_flags flags);
 void				ft_printadresse(va_list arg, int *cursor, t_flags flags);
 void				ft_printstring(va_list arg, int *cursor, t_flags flags);
 void				ft_printchar(va_list arg, int *cursor, t_flags flags);
@@ -124,6 +126,7 @@ void				ft_hashprint(int **cursor, unsigned char type,
 					t_flags flags);
 void				ft_initflags(t_flags *flags);
 void				ft_printfloat(va_list arg, int *cursor, t_flags flags);
+void				ft_printldouble(va_list arg, int *cursor, t_flags flags);
 void				ft_getvaluesu(t_flags *flags, int *precision, int **cursor,
 					long unsigned int d);
 void				ft_getvaluesd(t_flags *flags, int *precision, int **cursor,
@@ -137,4 +140,21 @@ int					ft_assignflag(t_flags *flags, char **string);
 int					ft_assignflag2(va_list arg, t_flags *flags, char **string);
 char				*detect_flg(char *string, va_list arg, int *cursor,
 					t_flags *flags);
+long				reverse_bits(long b, int bit_len);
+void				puideux(int mem, long mantis, char **n, char **count);
+void				ft_foisdix(char **str, int *len);
+void				puicinq(int i, long mantis, char **n, char **count);
+void				ft_printsignfloat(long sign, t_flags *flags, int **cursor);
+void				ft_print_nan_inf(t_64bit d, t_flags *flags, char **f);
+void				ft_dprint_nan_inf(t_80bit d, t_flags *flags, char **f);
+int					ft_infini(t_64bit d, char **f, t_flags *flags, int **cursor);
+int					ft_dinfini(t_80bit d, char **f, t_flags *flags, int **cursor);
+int					int_expo(long expo);
+int					int_dexpo(long expo);
+char				*int_mantis(t_64bit d);
+char				*int_dmantis(t_80bit d);
+char				*float_mantis(t_64bit d);
+char				*ldouble_mantis(t_80bit d);
+void				ft_adjust_width(t_64bit d, t_flags *flags, int **cursor, int i);
+void				ft_dadjust_width(t_80bit d, t_flags *flags, int **cursor, int i);
 #endif

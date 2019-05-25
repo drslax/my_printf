@@ -59,3 +59,32 @@ int			ft_getvaluead(t_flags *fl, int **cursor, int size)
 		(fl->zero && fl->precision == -1) ? ft_putchar('0') : ft_putchar(' ');
 	return (precision);
 }
+
+long		reverse_bits(long b, int bit_len)
+{
+	long	r;
+
+	r = 0;
+	while (bit_len--)
+	{
+		r = (r << 1) | (b & 1);
+		b >>= 1;
+	}
+	return (r);
+}
+
+void		ft_foisdix(char **str, int *len)
+{
+	char	*fois_dix;
+	int		i;
+
+	(*len)++;
+	fois_dix = (char*)malloc(sizeof(char) * (*len + 1));
+	fois_dix[*len] = '\0';
+	i = -1;
+	while ((*str)[++i] != '\0')
+		fois_dix[i] = (*str)[i];
+	fois_dix[i] = '0';
+	free(*str);
+	*str = fois_dix;
+}

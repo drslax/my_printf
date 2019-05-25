@@ -71,6 +71,8 @@ int			ft_assignflag(t_flags *flags, char **string)
 		flags->lflag += 1;
 	else if (**string == 'h')
 		flags->hflag += 1;
+	else if (**string == 'L')
+		flags->lflag = 2;
 	else
 		return (0);
 	return (1);
@@ -85,9 +87,8 @@ int			ft_assignflag2(va_list arg, t_flags *flags, char **str)
 		flags->width = ft_atoi(*str);
 		(*str) += (ft_numbersize(ft_atoi(*str))) - 1;
 	}
-	else if (**str == '.')
+	else if (**str == '.' && (*str)++)
 	{
-		(*str)++;
 		(star = (**str == '*') ? va_arg(arg, int) : ft_atoi(*str));
 		(flags->precision = ABS(star));
 		if ((**str == '*') || (**str == '0') || ft_atoi(*str) != 0)

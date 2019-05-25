@@ -6,13 +6,13 @@
 /*   By: mherrat <mherrat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/11 17:29:28 by mherrat           #+#    #+#             */
-/*   Updated: 2019/05/19 23:46:41 by aelouarg         ###   ########.fr       */
+/*   Updated: 2019/05/20 00:01:16 by aelouarg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strsub(char const *s, unsigned int start, size_t len)
+char	*ft_strfreesub(char **s, unsigned int start, size_t len, int t)
 {
 	char	*string;
 	size_t	i;
@@ -22,9 +22,9 @@ char	*ft_strsub(char const *s, unsigned int start, size_t len)
 	i = 0;
 	if ((string = (char *)malloc(sizeof(char) * (len + 1))))
 	{
-		while (s[i] != '\0' && i < len)
+		while ((*s)[i] != '\0' && i < len)
 		{
-			string[i] = s[start];
+			string[i] = (*s)[start];
 			start++;
 			i++;
 		}
@@ -34,6 +34,8 @@ char	*ft_strsub(char const *s, unsigned int start, size_t len)
 			i++;
 		}
 		string[i] = '\0';
+		if (t == 1)
+			free(*s);
 		return (string);
 	}
 	return (NULL);
