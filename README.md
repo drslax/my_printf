@@ -23,13 +23,13 @@ Are you tired of ft_putstr and ft_putnbr? Are you not allowed to use printf? Cod
 	- %		: A '%' is written.  No argument is converted.  The complete conversion specification is '%%'.
 
 * ) flags :
-	- [#]: hash.
-	- [0]: zero.
-	- [ ]: space.
-	- [+]: plus.
-	- [-]: minus.
-	- [.]: precision.
-	- [x]: width, (x) being replaced with an int.
+	- |[#]: hash.
+	- |[0]: zero.
+	- |[ ]: space.
+	- |[+]: plus.
+	- |[-]: minus.
+	- |[.]: precision.
+	- |[x]: width, (x) being replaced with an int.
 * ) bonus :
 	- %b : print integer in binary.
 	- %t : convert seconds (int) to period (month/days/hours/minutes/seconds).
