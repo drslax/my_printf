@@ -34,8 +34,14 @@ Are you tired of ft_putstr and ft_putnbr? Are you not allowed to use printf? Cod
 	- %b : print integer in binary.
 	- %t : convert seconds (int) to period (month/days/hours/minutes/seconds).
 	- %k : print colour font/background.
+
 			- example:
-				ft_printf("This string is written in %kred%k, while this %kbackground is green%k", "red", "end", "GREEN", "end");
+				char *red_font = "red";
+				char *green_bg = "GREEN";
+				char *eoc = "end";
+
+				ft_printf("This string is written in %kred%k, while this %kbackground is green%k", red_font, eoc, green_bg, eoc);
+
 	- %n : print non printable characters.
 
 			- example:
