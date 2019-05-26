@@ -6,12 +6,11 @@
 /*   By: mherrat <mherrat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 20:28:05 by mherrat           #+#    #+#             */
-/*   Updated: 2019/05/07 17:35:37 by mherrat          ###   ########.fr       */
+/*   Updated: 2019/05/26 02:42:12 by aelouarg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/printf.h"
-#include <stdio.h>
 
 void	ft_assigntypechar(va_list arg, uintmax_t *number, t_flags flags)
 {

@@ -43,18 +43,19 @@ char			*int_mantis(t_64bit d)
 	n = ft_strdup("0");
 	if ((mem = int_expo(d.dfloat.expo)) < 0)
 		return (n);
-	count = ft_strdup("1");
 	if ((52 - mem) <= 0)
 	{
 		count = ft_strpower(2, mem - 52, 10);
 		mem = 52;
 	}
 	else
+	{
 		mantis >>= (52 - mem);
+		count = ft_strdup("1");
+	}
 	puideux(mem, mantis, &n, &count);
 	tmp = n;
-	n = ft_strsum(n, count, 10);
-	free(tmp);
+	((n = ft_strsum(n, count, 10)) && tmp) ? free(tmp) : 0;
 	free(count);
 	return (n);
 }

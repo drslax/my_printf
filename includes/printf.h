@@ -72,6 +72,8 @@ typedef enum		e_cnv
 	O_p,
 	O_f,
 	O_t,
+	O_k,
+	O_n,
 	O_END
 }					t_cnv;
 
@@ -114,7 +116,10 @@ void				ft_printnumberhexmin(va_list arg, int *cursor,
 					t_flags flags);
 void				ft_printnumberhexmaj(va_list arg, int *cursor,
 					t_flags flags);
+void				ft_print_nonprintable(va_list arg, int *cursor,
+					t_flags flags);
 void				ft_printnumberoct(va_list arg, int *cursor, t_flags flags);
+void				ft_printcolor(va_list arg, int *cursor, t_flags flags);
 void				ft_printtime(va_list arg, int *cursor, t_flags flags);
 void				ft_printadresse(va_list arg, int *cursor, t_flags flags);
 void				ft_printstring(va_list arg, int *cursor, t_flags flags);
@@ -130,7 +135,7 @@ void				ft_printldouble(va_list arg, int *cursor, t_flags flags);
 void				ft_getvaluesu(t_flags *flags, int *precision, int **cursor,
 					long unsigned int d);
 void				ft_getvaluesd(t_flags *flags, int *precision, int **cursor,
-long long d);
+					long long d);
 int					ft_getvaluex(t_flags *fl, int **cursor, int size,
 					long unsigned int d);
 int					ft_getvalueo(t_flags *fl, int **cursor, int size,
@@ -147,14 +152,18 @@ void				puicinq(int i, long mantis, char **n, char **count);
 void				ft_printsignfloat(long sign, t_flags *flags, int **cursor);
 void				ft_print_nan_inf(t_64bit d, t_flags *flags, char **f);
 void				ft_dprint_nan_inf(t_80bit d, t_flags *flags, char **f);
-int					ft_infini(t_64bit d, char **f, t_flags *flags, int **cursor);
-int					ft_dinfini(t_80bit d, char **f, t_flags *flags, int **cursor);
+int					ft_infini(t_64bit d, char **f, t_flags *flags,
+					int **cursor);
+int					ft_dinfini(t_80bit d, char **f, t_flags *flags,
+					int **cursor);
 int					int_expo(long expo);
 int					int_dexpo(long expo);
 char				*int_mantis(t_64bit d);
 char				*int_dmantis(t_80bit d);
 char				*float_mantis(t_64bit d);
 char				*ldouble_mantis(t_80bit d);
-void				ft_adjust_width(t_64bit d, t_flags *flags, int **cursor, int i);
-void				ft_dadjust_width(t_80bit d, t_flags *flags, int **cursor, int i);
+void				ft_adjust_width(t_64bit d, t_flags *flags, int **cursor,
+					int i);
+void				ft_dadjust_width(t_80bit d, t_flags *flags, int **cursor,
+					int i);
 #endif

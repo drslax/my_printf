@@ -27,6 +27,8 @@ t_func	call_func(int i)
 		{'p', O_p, &ft_printadresse},
 		{'f', O_f, &ft_printfloat},
 		{'t', O_t, &ft_printtime},
+		{'k', O_k, &ft_printcolor},
+		{'n', O_n, &ft_print_nonprintable},
 		{0, O_END, NULL}};
 
 	return (func[i]);

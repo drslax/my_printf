@@ -6,7 +6,7 @@
 #    By: aelouarg <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/20 10:55:39 by aelouarg          #+#    #+#              #
-#    Updated: 2019/05/23 03:27:09 by aelouarg         ###   ########.fr        #
+#    Updated: 2019/05/26 03:05:03 by aelouarg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,6 +51,8 @@ FILENAMES 	= flags.c\
 			strings.c\
 			time.c\
 			tools.c\
+			colors.c\
+			non_printable.c\
 			tools2.c
 
 OBJ_DIR 	= obj
@@ -73,7 +75,7 @@ $(NAME):  $(OBJ) | $(LIBFT)
 	@echo '██╔══╝     ██║        ██╔═══╝ ██╔══██╗██║██║╚██╗██║   ██║   ██╔══╝  '
 	@echo '██║        ██║███████╗██║     ██║  ██║██║██║ ╚████║   ██║   ██║     '
 	@echo '╚═╝        ╚═╝╚══════╝╚═╝     ╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝   ╚═╝   ╚═╝     '
-	@echo "${_END}"
+	@echo "                                               by : Dr Slax =)${_END}"
 
 $(OBJ):	$(OBJ_DIR)/%.o : $(SRC_DIR)/%.c $(HDR) | $(OBJ_DIR)
 	@$(CC) $(FLAGS) -c $< -o $@ 

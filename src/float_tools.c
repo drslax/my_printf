@@ -99,6 +99,7 @@ int			ft_infini(t_64bit d, char **f, t_flags *flags, int **cursor)
 		while ((!flags->la || !(**f)) && --flags->width >= 0)
 			ft_putchar(' ');
 		ft_putstr(*f);
+		free(*f);
 		while (--flags->width >= 0 && flags->la)
 			ft_putchar(' ');
 		return (0);

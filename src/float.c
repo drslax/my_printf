@@ -48,8 +48,8 @@ static int		get_float(t_64bit d, char **f, char **intt)
 	len = ft_strlen(mant);
 	fmantis = float_mantis(d);
 	*f = ft_strjoin(mant, fmantis);
-	fmantis ? free(fmantis) : 0;
-	mant ? free(mant) : 0;
+	free(mant);
+	free(fmantis);
 	return (len);
 }
 
